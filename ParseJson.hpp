@@ -1,5 +1,5 @@
-#ifndef SCRAPPER_HPP
-# define SCRAPPER_HPP
+#ifndef PARSE_JSON_HPP
+# define PARSE_JSON_HPP
 
 #include <jsoncpp/json/json.h>
 #include <curl/curl.h>
@@ -7,22 +7,20 @@
 #include<vector>
 #include<string>
 
-class Scraper
+class ParseJson
 {
 	private:
-		std::string retrieved_data_json;
 		
 
 	public:
 		// --Conststructors-- //
-		Scraper();
+		ParseJson();
 		// --Destructor-- //
-		~Scraper();
+		~ParseJson();
 
 		// --Overloads-- //
 
 		// --Member Functions-- //
-		bool sendToDiscord(const std)
 
 
 };
