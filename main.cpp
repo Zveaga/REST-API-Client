@@ -19,7 +19,7 @@ bool CurlRequest(const std::string &url, std::string &response)
 {
 	// Initialize curl handle
 	CURL *curl = curl_easy_init();
-	std::string api_key = "";
+	std::string api_key = "17921b1a-07b1-4264-8260-3547e4d9af36";
 	if (!curl)
 	{
 		std::cerr << "Failed to initialize the CURL handle\n";
@@ -51,10 +51,13 @@ bool CurlRequest(const std::string &url, std::string &response)
 	return (true);
 }
 
+/**
+ * [describe function]
+*/
 bool sendToDiscord(const std::string &data)
 {
 	CURL *curl = curl_easy_init();
-	std::string webhook_url = "";
+	std::string webhook_url = "https://discord.com/api/webhooks/1219633152776208467/CCKCnAmKqdMHC1UBHteE4Xq-ipFj23jMBE-F56aSUgX5V6aAI76r4ycCzJK-pp2eZf14";
 
 	if (!curl)
 	{
@@ -118,6 +121,9 @@ std::string convertToJson(const Json::Value &data)
 	const std::string data_as_json_str = Json::writeString(builder, data);
 	return (data_as_json_str);
 }
+
+
+
 
 int main(void)
 {
