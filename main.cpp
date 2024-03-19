@@ -19,7 +19,7 @@ bool CurlRequest(const std::string &url, std::string &response)
 {
 	// Initialize curl handle
 	CURL *curl = curl_easy_init();
-	std::string api_key = "17921b1a-07b1-4264-8260-3547e4d9af36";
+	std::string api_key = "";
 	if (!curl)
 	{
 		std::cerr << "Failed to initialize the CURL handle\n";
