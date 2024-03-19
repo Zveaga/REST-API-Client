@@ -6,6 +6,8 @@
 #include<iostream>
 #include<vector>
 #include<string>
+#include"ParseJson.hpp"
+#include"CurlRequest.hpp"
 
 class Scraper
 {
@@ -22,7 +24,7 @@ class Scraper
 		// --Overloads-- //
 
 		// --Member Functions-- //
-		bool sendToDiscord(const std)
+		bool sendDataToDiscord(std::vector<std::string> data_to_send);
 
 
 };
