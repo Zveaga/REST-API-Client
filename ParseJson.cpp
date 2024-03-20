@@ -53,8 +53,10 @@ bool ParseJson::parseJsonRes()
 		_prices.push_back(findPrice(parsedRoot, _symbols[i++]));
 		parsedRoot.clear();
 	}
-	for (const std::string &price: _prices)
-		std::cout << price << std::endl;
+	delete reader;
+
+	// for (const std::string &price: _prices)
+	// 	std::cout << price << std::endl;
 	return (true);
 }
 
@@ -65,8 +67,20 @@ std::string ParseJson::findPrice(Json::Value &parsedRoot, const std::string &sym
 	const Json::Value coin_data = coin_data_array[0];
 	const Json::Value quote_data = coin_data["quote"];
 	const Json::Value usd_data = quote_data["USD"];
-	const Json::Value price_data = usd_data["price"];
+	const Json::Value price = usd_data["price"];
 
-	return (price_data.asString());
+	return (price.asString());
 }
+
+void ParseJson::convertResToJson()
+{
+	Json::Value jsonArray(Json::arrayValue);
+
+	for (const std::string &price: _prices)
+		jsonArray.append(price);
+	Json::StyledWriter writer;
+	_formatted_json = writer.write(jsonArray);
+	std::cout << _formatted_json;
+}
+
 

@@ -13,8 +13,6 @@ class Scraper
 {
 	private:
 		std::string retrieved_data_json;
-		
-
 	public:
 		// --Conststructors-- //
 		Scraper();

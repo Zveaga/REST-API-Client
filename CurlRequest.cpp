@@ -161,7 +161,6 @@ bool CurlRequest::performCurlRequests()
 				<< curl_easy_strerror(res) << std::endl;
     	    return (false);
     	}
-		// std::cout << "++++++\n";
 	}
 	// for (const std::string &response: _curl_json_responses)
 	// {
@@ -173,8 +172,6 @@ bool CurlRequest::performCurlRequests()
 	curl_easy_cleanup(_curl);
 	return (true);
 }
-
-
 
 /**
  * This function will be used by curl to retrieve and store the requested data
@@ -189,7 +186,7 @@ size_t CurlRequest::curlWriteCallBack(void *retrieved_content, size_t elem_size,
 std::string	CurlRequest::loadApiKey()
 {
 	std::string api_key;
-	std::ifstream file("api_key");
+	std::ifstream file("api_key.txt");
 
 	if (file.is_open())
 	{

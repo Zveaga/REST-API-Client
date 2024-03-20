@@ -20,10 +20,10 @@ int main(void)
 	
 	parse.initSymbols();
 	parse.parseJsonRes();
-	
+	parse.convertResToJson();
 
 	
-	//curl_global_cleanup();
+	curl_global_cleanup();
 	
 }
 
