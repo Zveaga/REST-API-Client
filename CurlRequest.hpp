@@ -4,41 +4,54 @@
 #include <jsoncpp/json/json.h>
 #include <curl/curl.h>
 #include<iostream>
+#include<fstream>
 #include<vector>
 #include<string>
 
 class CurlRequest
 {
 	private:
-		std::vector<std::string> _api_urls;
-		std::vector<std::string> _curl_json_responses;
-		std::string _api_key;
-		std::string _webhook_url;
+		std::vector<std::string> 	_api_urls;
+		std::vector<std::string> 	_curl_json_responses;
+		std::string 				_api_key;
+		std::string 				_webhook_url;
+		std::string					_formatted_response;
+		CURL						*_curl;
+		struct curl_slist 			*_curl_headers;
+		std::vector<std::string>	_symbols;
 
 	public:
-		// --Conststructors-- //
+		// --CONSTRUCTORS-- //
 		CurlRequest();
-		// --Destructor-- //
+
+		// --DESTRUCTORS-- //
 		~CurlRequest();
 
-		// --Overloads-- //
+		// --OVERLOADS-- //
 
-		// --Member Functions-- //
-		std::vector<std::string>initApiUrl();
-		void 					initWebhook();
-		void 					setApiKey(std::string api_key);
-		void 					setWebhookURL(std::string webhook_url);
-		std::string 			getApiKey() const;
-		std::string 			getWebhookURL() const;
+		// --MEMBER FUNCTIONS-- //
 
-		size_t 					curlWriteCallBack(void *retrieved_content,
-								size_t elem_size, size_t elem_count, void *data);
-		void 					setCurlGetOptions();
-		void 					setCurlGetHeaders();
-		void 					setCurlPostOptions();
-		void 					setCurlPostHeaders();
-		bool 					performCurlRequest(const std::vector<std::string> &api_urls,
-								std::vector<std::string> &curl_json_responses);
+		// -Initializers- //
+		void				initApiUrls();
+		bool 				initCurlHandle();
+		void 				initWebhook();
+		void 				initApiKey();
+		// void 				setWebhookURL(std::string webhook_url);
+		// -Getters- ///
+		std::string 		getApiKey() const;
+		std::string 		getWebhookURL() const;
+		//std::vector<std::string> getSymbols() const;
+		std::vector<std::string> getJsonResponses() const;
+		// -Setters- ///
+		void 				setCurlGetOptions();
+		void 				setCurlGetHeaders();
+		void 				setCurlPostOptions();
+		void 				setCurlPostHeaders();
+		// -Actions- ///
+		bool 				performCurlRequests();
+		static size_t 		curlWriteCallBack(void *retrieved_content,
+							size_t elem_size, size_t elem_count, void *data);
+		std::string			loadApiKey();
 		
 
 };

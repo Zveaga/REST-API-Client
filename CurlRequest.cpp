@@ -1,17 +1,24 @@
 
 #include"CurlRequest.hpp"
 
-// --Conststructors-- //
+// =========CONSTRUCTORS========= //
 
 /**
  * [describe function]
 */
 CurlRequest::CurlRequest()
 {
-	
+	_symbols = 
+	{
+		"BTC",
+		"ETH",
+		"ADA",
+		"HNT",
+		"YGG",
+	};
 }
 
-// --Destructor-- //
+// =========DESTRUCTORS========= //
 
 /**
  * [describe function]
@@ -21,23 +28,25 @@ CurlRequest::~CurlRequest()
 
 }
 
-// --Overloads-- /
+// --OVERLOADS-- //
 
-// --Member Functions-- //
+// =========MEMBER FUNCTIONS========= //
 
+// ---------------Initializers--------------- //
 /**
  * [describe function]
 */
-std::vector<std::string>CurlRequest::initApiUrl()
+void CurlRequest::initApiUrls()
 {
 	_api_urls =  
 	{
 		"https://pro-api.coinmarketcap.com/v2/cryptocurrency/quotes/latest?symbol=BTC",
-		"https://pro-api.coinmarketcap.com/v2/cryptocurrency/quotes/latest?symbol=ETH"
-		"https://pro-api.coinmarketcap.com/v2/cryptocurrency/quotes/latest?symbol=ADA"
-		"https://pro-api.coinmarketcap.com/v2/cryptocurrency/quotes/latest?symbol=HNT"
-		"https://pro-api.coinmarketcap.com/v2/cryptocurrency/quotes/latest?symbol=YGG"		
+		"https://pro-api.coinmarketcap.com/v2/cryptocurrency/quotes/latest?symbol=ETH",
+		"https://pro-api.coinmarketcap.com/v2/cryptocurrency/quotes/latest?symbol=ADA",
+		"https://pro-api.coinmarketcap.com/v2/cryptocurrency/quotes/latest?symbol=HNT",
+		"https://pro-api.coinmarketcap.com/v2/cryptocurrency/quotes/latest?symbol=YGG",		
 	};
+	
 }
 
 /**
@@ -45,25 +54,38 @@ std::vector<std::string>CurlRequest::initApiUrl()
 */
 void 	CurlRequest::initWebhook()
 {
-	
+	_webhook_url = "https://discord.com/api/webhooks/1219633152776208467/CCKCnAmKqdMHC1UBHteE4Xq-ipFj23jMBE-F56aSUgX5V6aAI76r4ycCzJK-pp2eZf14";
 }
 
 /**
  * [describe function]
 */
-void 	CurlRequest::setApiKey(std::string api_key)
+void 	CurlRequest::initApiKey()
 {
-	_api_key = api_key;
+	_api_key = loadApiKey();
 }
 
-/**
- * [describe function]
-*/
-void 	CurlRequest::setWebhookURL(std::string webhook_url)
+bool CurlRequest::initCurlHandle()
 {
-	_webhook_url = webhook_url;
+	_curl = curl_easy_init();
+	if (!_curl)
+	{
+		std::cerr << "Failed to initialize the CURL handle\n";
+		return (false);
+	}
+	return (true);
 }
 
+
+// /**
+//  * [describe function]
+// */
+// void 	CurlRequest::setWebhookURL(std::string webhook_url)
+// {
+// 	_webhook_url = webhook_url;
+// }
+
+// ---------------Getters--------------- //
 /**CurlRequest
  * [describe function]
 */
@@ -81,59 +103,98 @@ std::string CurlRequest::getWebhookURL() const
 }
 
 
+std::vector<std::string> CurlRequest::getJsonResponses() const
+{
+	return (_curl_json_responses);
+}
+
+// std::vector<std::string> CurlRequest::getSymbols() const
+// {
+// 	return (_symbols);
+// }
+
+
+// ---------------Setters--------------- //
+void CurlRequest::setCurlGetOptions()
+{
+	curl_easy_setopt(_curl, CURLOPT_WRITEFUNCTION, curlWriteCallBack);
+	curl_easy_setopt(_curl, CURLOPT_WRITEDATA, &_curl_json_responses);
+}
+
+void CurlRequest::setCurlPostOptions()
+{
+	curl_easy_setopt(_curl, CURLOPT_URL, _webhook_url.c_str());
+	curl_easy_setopt(_curl, CURLOPT_POSTFIELDS, _formatted_response.c_str());
+}
+
+
+void CurlRequest::setCurlGetHeaders()
+{
+	_curl_headers = nullptr;
+	_curl_headers = curl_slist_append(_curl_headers, ("X-CMC_PRO_API_KEY: " + _api_key).c_str());
+	curl_easy_setopt(_curl, CURLOPT_HTTPHEADER, _curl_headers);
+}
+
+
+void CurlRequest::setCurlPostHeaders()
+{
+	_curl_headers = nullptr;
+	_curl_headers = curl_slist_append(_curl_headers, "Content-Type: application/json");
+	curl_easy_setopt(_curl, CURLOPT_HTTPHEADER, _curl_headers);
+}
+
+
+// ---------------Actions--------------- //
+bool CurlRequest::performCurlRequests()
+{
+	for (size_t i = 0; i < _api_urls.size(); i++)
+	{
+		curl_easy_setopt(_curl, CURLOPT_URL, _api_urls[i].c_str());
+		// Execute the HTTP request
+		CURLcode res = curl_easy_perform(_curl);
+		// Check if request was successful
+		if (res != CURLE_OK)
+		{
+			curl_slist_free_all(_curl_headers);
+			curl_easy_cleanup(_curl);
+			std::cerr << "Failed to perform the HTTP get request: "
+				<< curl_easy_strerror(res) << std::endl;
+    	    return (false);
+    	}
+		// std::cout << "++++++\n";
+	}
+	// for (const std::string &response: _curl_json_responses)
+	// {
+	// 	std::cout << response << std::endl;
+	// 	std::cout << "\n\n\n\n";
+	// }
+	// Clean up
+	curl_slist_free_all(_curl_headers);
+	curl_easy_cleanup(_curl);
+	return (true);
+}
+
+
+
 /**
  * This function will be used by curl to retrieve and store the requested data
 */
 size_t CurlRequest::curlWriteCallBack(void *retrieved_content, size_t elem_size, size_t elem_count, void *data)
 {
-    ((std::string*)data)->append((char*)retrieved_content, elem_size * elem_count);
+    ((std::vector<std::string>*)data)->emplace_back(static_cast<char*>(retrieved_content), elem_size * elem_count);
     return (elem_size * elem_count);
 }
 
-void CurlRequest::setCurlGetOptions()
+
+std::string	CurlRequest::loadApiKey()
 {
+	std::string api_key;
+	std::ifstream file("api_key");
 
-}
-
-void CurlRequest::setCurlPostOptions()
-{
-
-}
-
-
-bool CurlRequest::performCurlRequest(const std::vector<std::string> &api_urls, std::vector<std::string> &curl_json_responses)
-{
-	// Initialize curl handle
-	CURL *curl = curl_easy_init();
-	std::string api_key = "";
-	if (!curl)
+	if (file.is_open())
 	{
-		std::cerr << "Failed to initialize the CURL handle\n";
-		return (false);
+		std::getline(file, api_key);
+		file.close();
 	}
-
-	// Add the api_key as a custom header to HTTP request
-	struct curl_slist *headers = nullptr;
-	headers = curl_slist_append(headers, ("X-CMC_PRO_API_KEY: " + api_key).c_str());	
-	
-	// Set up curl options
-	curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
-	curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
-	curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, writeCallBack);
-	curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
-
-	// Execute the HTTP request
-	CURLcode res = curl_easy_perform(curl);
-	// Clean up
-	curl_slist_free_all(headers);
-	curl_easy_cleanup(curl);
-
-	// Check if request was successful
-	if (res != CURLE_OK)
-	{
-		std::cerr << "Failed to perform the HTTP get request: " << curl_easy_strerror(res) << std::endl;
-        return false;
-    }
-	return (true);
+	return (api_key);
 }
-

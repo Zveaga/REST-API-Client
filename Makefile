@@ -9,12 +9,15 @@ NAME = scrapper
 
 SRC = \
 main.cpp \
+CurlRequest.cpp \
+ParseJson.cpp \
+Scraper.cpp \
 
 OBJ = $(SRC:.cpp=.o)
 
 CC = g++
 
-FLAGS = -Wall -Wextra -Werror -Wshadow
+FLAGS = -Wall -Wextra -Werror -Wshadow -std=c++11
 
 LIBS = -ljsoncpp -lcurl
 
