@@ -154,7 +154,7 @@ int main(void)
 		Json::Value root;
 		if (parseJson(response, root))
 		{
-			std::cout << root << std::endl;
+			std::cout << root << std::endl; ///ADD CHECKS!!!!
 			const Json::Value data = root["data"];
 			const Json::Value coin_data_array = data["BTC"];
 			const Json::Value coin_data = coin_data_array[0];

@@ -20,8 +20,9 @@ int main(void)
 	
 	parse.initSymbols();
 	parse.parseJsonRes();
-	parse.convertResToJson();
-
+	parse.formatJsonForDiscord();
+	//parse.convertResToJson();
+	//parse.formatPrice();
 	
 	curl_global_cleanup();
 	
