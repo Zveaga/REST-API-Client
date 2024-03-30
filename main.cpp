@@ -11,9 +11,9 @@ int main(void)
 	curl.initApiUrls();
 	curl.initApiKey();
 
+
 	curl.setCurlGetOptions();
 	curl.setCurlGetHeaders();
-
 	curl.performCurlRequests();
 	
 	ParseJson parse(curl.getJsonResponses());
@@ -24,6 +24,13 @@ int main(void)
 	//parse.convertResToJson();
 	//parse.formatPrice();
 	
+	curl.setParsedJson(parse.getParsedJson());
+	std::cout << curl.getParsedJson() << std::endl;
+	
+	curl.initWebhook();
+	//curl.setCurlPostOptions();
+	//curl.setCurlPostHeaders();
+	curl.sendToDiscord();
 	curl_global_cleanup();
 	
 }

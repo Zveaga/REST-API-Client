@@ -29,6 +29,7 @@ class ParseJson
 		// -Initializers- //
 		void initSymbols();
 		// -Getters- ///
+		std::string getParsedJson();
 		// -Setters- ///
 		// -Actions- ///
 		bool parseJsonRes();

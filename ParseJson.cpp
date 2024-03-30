@@ -29,6 +29,13 @@ void ParseJson::initSymbols()
 	};
 }
 // -Getters- ///
+
+std::string ParseJson::getParsedJson()
+{
+	return(_prices_as_json);
+}
+
+
 // -Setters- ///
 // -Actions- ///
 bool ParseJson::parseJsonRes()
@@ -86,7 +93,7 @@ void ParseJson::convertResToJson()
 	}
 	Json::StyledWriter writer;
 	_prices_as_json = writer.write(jsonArray);
-	std::cout << _prices_as_json;
+	//std::cout << _prices_as_json;
 }
 
 void ParseJson::formatPrice()
@@ -117,20 +124,24 @@ void ParseJson::formatPrice()
 
 void ParseJson::formatJsonForDiscord()
 {
-	Json::Value jsonObject(Json::objectValue);
+	Json::Value message(Json::objectValue);
 
-	for(size_t i = 0; i < _prices_as_str.size() ; i++)
+	Json::Value content(Json::objectValue);
+
+	for (size_t i = 0; i < _prices_as_str.size() ; i++)
 	{
 		//std::cout << _symbols[i];
 		//std::cout << "\n";
-
 		//std::cout << _prices_as_str[i];
-		jsonObject[_symbols[i]] = _prices_as_str[i];
+		content[_symbols[i]] = _prices_as_str[i];
 	}
-	
 	Json::StreamWriterBuilder writer;
-	_prices_as_json = Json::writeString(writer, jsonObject);
-	std::cout << _prices_as_json << std::endl;
+	std::string content_as_str = Json::writeString(writer, content);
+
+	message["content"] = content_as_str;
+
+	_prices_as_json = Json::writeString(writer, message);
+	//std::cout << _prices_as_json << std::endl;
 }
 
 // =========NOT USED========= //
