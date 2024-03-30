@@ -131,16 +131,7 @@ void CurlRequest::setCurlPostOptions()
 {
 		
 	curl_easy_setopt(_curl, CURLOPT_URL, _webhook_url.c_str());
-	// curl_easy_setopt(_curl, CURLOPT_POSTFIELDS, _parsed_json.c_str());
-
-	std::string price = "1000";
-	std::string cryptoJson = R"({
-    "content": "Bitcoin price: $)" + price + R"("
-    })";
-	
-	
-		
-	//curl_easy_setopt(_curl, CURLOPT_POSTFIELDS, messageString.c_str());
+	curl_easy_setopt(_curl, CURLOPT_POSTFIELDS, _parsed_json.c_str());
 }
 
 
@@ -159,11 +150,9 @@ void CurlRequest::setCurlPostHeaders()
 	curl_easy_setopt(_curl, CURLOPT_HTTPHEADER, _curl_headers);
 }
 
-void CurlRequest::setParsedJson(const std::string parsed_json)
+void CurlRequest::setParsedJson(const std::string &parsed_json)
 {
 	_parsed_json = parsed_json;
-	//std::cout << _parsed_json << std::endl;
-
 }
 
 // ---------------Actions--------------- //
@@ -191,9 +180,9 @@ bool CurlRequest::performCurlRequests()
 	// }
 	// Clean up
 	curl_slist_free_all(_curl_headers);
-	curl_easy_cleanup(_curl);
+	curl_easy_reset(_curl);
 
-	//curl_easy_reset(_curl);
+	// curl_easy_cleanup(_curl);
 	return (true);
 }
 
@@ -223,57 +212,13 @@ std::string	CurlRequest::loadApiKey()
 
 bool CurlRequest::sendToDiscord()
 {
-
-	CURL *curl = curl_easy_init();
-	std::string webhook_url = "https://discord.com/api/webhooks/1219633152776208467/CCKCnAmKqdMHC1UBHteE4Xq-ipFj23jMBE-F56aSUgX5V6aAI76r4ycCzJK-pp2eZf14";
-
-	if (!curl)
-	{
-		std::cerr << "Failed to initialize the CURL handle\n";
-		return (false);
-	}
-	struct curl_slist *headers = nullptr;
-	headers = curl_slist_append(headers, "Content-Type: application/json");
-
-	// std::string price = "1000";
-	// std::string cryptoJson = R"({
-    // "content": "Bitcoin price: $)" R"("
-	
-    // })";
-	
-	curl_easy_setopt(curl, CURLOPT_URL, webhook_url.c_str());
-	curl_easy_setopt(curl, CURLOPT_POSTFIELDS, _parsed_json.c_str());
-	curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
-
-	CURLcode res = curl_easy_perform(curl);
+	CURLcode res = curl_easy_perform(_curl);
 	if (res != CURLE_OK)
 	{
 		std::cerr << "Failed to perform the HTTP post request: " << curl_easy_strerror(res) << std::endl;
-        return false;
-    }
-	curl_slist_free_all(headers);
-	curl_easy_cleanup(curl);
-
+        return (false);
+	}
+	curl_slist_free_all(_curl_headers);
+	curl_easy_cleanup(_curl);
 	return (true);
-
-
-	// _curl = curl_easy_init();
-	// if (!_curl)
-	// {
-	// 	std::cerr << "Failed to initialize the CURL handle\n";
-	// 	return (false);
-	// }
-	// setCurlPostOptions();
-	// setCurlPostHeaders();
-
-	// //std::cout << _parsed_json.c_str() << std::endl;
-	// CURLcode res = curl_easy_perform(_curl);
-	// if (res != CURLE_OK)
-	// {
-	// 	std::cerr << "Failed to perform the HTTP post request: " << curl_easy_strerror(res) << std::endl;
-    //     return (false);
-	// }
-	// curl_slist_free_all(_curl_headers);
-	// curl_easy_cleanup(_curl);
-	// return (true);
 }

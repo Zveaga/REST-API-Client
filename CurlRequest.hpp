@@ -48,7 +48,7 @@ class CurlRequest
 		void 				setCurlGetHeaders();
 		void 				setCurlPostOptions();
 		void 				setCurlPostHeaders();
-		void				setParsedJson(const std::string parsed_json);
+		void				setParsedJson(const std::string &parsed_json);
 		// -Actions- ///
 		bool 				performCurlRequests();
 		static size_t 		curlWriteCallBack(void *retrieved_content,

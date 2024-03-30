@@ -28,8 +28,8 @@ int main(void)
 	std::cout << curl.getParsedJson() << std::endl;
 	
 	curl.initWebhook();
-	//curl.setCurlPostOptions();
-	//curl.setCurlPostHeaders();
+	curl.setCurlPostOptions();
+	curl.setCurlPostHeaders();
 	curl.sendToDiscord();
 	curl_global_cleanup();
 	
