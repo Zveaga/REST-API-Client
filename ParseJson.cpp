@@ -129,7 +129,7 @@ void ParseJson::formatJsonForDiscord()
 
 	for (size_t i = 0; i < _prices_as_str.size() ; i++)
 	{
-		content[_symbols[i]] = _prices_as_str[i];
+		content[_symbols[i]] = "$" + _prices_as_str[i];
 	}
 	Json::StreamWriterBuilder writer;
 	std::string content_as_str = Json::writeString(writer, content);
