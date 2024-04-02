@@ -54,7 +54,7 @@ void CurlRequest::initApiUrls()
 */
 void 	CurlRequest::initWebhook()
 {
-	_webhook_url = "https://discord.com/api/webhooks/1219633152776208467/CCKCnAmKqdMHC1UBHteE4Xq-ipFj23jMBE-F56aSUgX5V6aAI76r4ycCzJK-pp2eZf14";
+	_webhook_url = loadTextFile("webhook.txt");
 }
 
 /**
@@ -62,7 +62,7 @@ void 	CurlRequest::initWebhook()
 */
 void 	CurlRequest::initApiKey()
 {
-	_api_key = loadApiKey();
+	_api_key = loadTextFile("api_key.txt");
 }
 
 bool CurlRequest::initCurlHandle()
@@ -169,10 +169,10 @@ size_t CurlRequest::curlWriteCallBack(void *retrieved_content, size_t elem_size,
     return (elem_size * elem_count);
 }
 
-std::string	CurlRequest::loadApiKey()
+std::string	CurlRequest::loadTextFile(const std::string &file_name)
 {
 	std::string api_key;
-	std::ifstream file("api_key.txt");
+	std::ifstream file(file_name);
 
 	if (file.is_open())
 	{

@@ -4,6 +4,7 @@
 #include <jsoncpp/json/json.h>
 #include <curl/curl.h>
 #include <iostream>
+#include <iomanip>
 #include <vector>
 #include <string>
 
@@ -35,6 +36,7 @@ class ParseJson
 		bool parseJsonRes();
 		double extractPrice(const Json::Value &parsedRoot, const std::string &symbol);
 		
+		std::string setPrecision(double price, int precision);
 		void formatPrice();
 
 		void convertResToJson();

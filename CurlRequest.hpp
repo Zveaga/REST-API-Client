@@ -53,7 +53,7 @@ class CurlRequest
 		bool 				performCurlRequests();
 		static size_t 		curlWriteCallBack(void *retrieved_content,
 							size_t elem_size, size_t elem_count, void *data);
-		std::string			loadApiKey();
+		std::string			loadTextFile(const std::string &file);
 
 		bool				sendToDiscord();
 		
