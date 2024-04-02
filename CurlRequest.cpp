@@ -34,7 +34,7 @@ CurlRequest::~CurlRequest()
 
 // ---------------Initializers--------------- //
 /**
- * [describe function]
+ * Initilalize the  
 */
 void CurlRequest::initApiUrls()
 {
@@ -76,15 +76,6 @@ bool CurlRequest::initCurlHandle()
 	return (true);
 }
 
-
-// /**
-//  * [describe function]
-// */
-// void 	CurlRequest::setWebhookURL(std::string webhook_url)
-// {
-// 	_webhook_url = webhook_url;
-// }
-
 // ---------------Getters--------------- //
 /**CurlRequest
  * [describe function]
@@ -94,31 +85,20 @@ std::string CurlRequest::getApiKey() const
 	return (_api_key);
 }
 
-/**
- * [describe function]
-*/
 std::string CurlRequest::getWebhookURL() const
 {
 	return (_webhook_url);
 }
-
 
 std::vector<std::string> CurlRequest::getJsonResponses() const
 {
 	return (_curl_json_responses);
 }
 
-// std::vector<std::string> CurlRequest::getSymbols() const
-// {
-// 	return (_symbols);
-// }
-
-
 std::string CurlRequest::getParsedJson()
 {
 	return(_parsed_json);
 }
-
 
 // ---------------Setters--------------- //
 void CurlRequest::setCurlGetOptions()
@@ -173,15 +153,9 @@ bool CurlRequest::performCurlRequests()
     	    return (false);
     	}
 	}
-	// for (const std::string &response: _curl_json_responses)
-	// {
-	// 	std::cout << response << std::endl;
-	// 	std::cout << "\n\n\n\n";
-	// }
 	// Clean up
 	curl_slist_free_all(_curl_headers);
 	curl_easy_reset(_curl);
-
 	// curl_easy_cleanup(_curl);
 	return (true);
 }
@@ -195,7 +169,6 @@ size_t CurlRequest::curlWriteCallBack(void *retrieved_content, size_t elem_size,
     return (elem_size * elem_count);
 }
 
-
 std::string	CurlRequest::loadApiKey()
 {
 	std::string api_key;
@@ -208,7 +181,6 @@ std::string	CurlRequest::loadApiKey()
 	}
 	return (api_key);
 }
-
 
 bool CurlRequest::sendToDiscord()
 {

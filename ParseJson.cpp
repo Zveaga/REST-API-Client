@@ -116,28 +116,51 @@ void ParseJson::formatPrice()
 					break ;
 			}
 		}
-		std::cout << _prices_as_str[i];
-		std::cout << "\n";
+		//std::cout << _prices_as_str[i];
+		//std::cout << "\n";
 		
 	}
 }
 
 void ParseJson::formatJsonForDiscord()
 {
-	Json::Value message(Json::objectValue);
-	Json::Value content(Json::objectValue);
+	// Json::Value content(Json::objectValue);
+	// for (size_t i = 0; i < _prices_as_str.size() ; i++)
+	// {
+	// 	content[_symbols[i]] = "$" + _prices_as_str[i];
+	// }
 
-	for (size_t i = 0; i < _prices_as_str.size() ; i++)
+	Json::Value embeds(Json::arrayValue);
+	Json::Value embed(Json::objectValue);
+	embed["title"] = "- Crypto Prices -";
+	//embed["description"] = "This is the description!";
+
+	Json::Value fields(Json::arrayValue);
+
+	for (unsigned int i = 0; i < _symbols.size(); ++i)
 	{
-		content[_symbols[i]] = "$" + _prices_as_str[i];
+		fields[i]["name"] = _symbols[i];
+		fields[i]["value"] = "$" + _prices_as_str[i];
 	}
+
+	embed["fields"] = fields;
+	embeds.append(embed);
+
+	// Json::Value 
+
 	Json::StreamWriterBuilder writer;
-	std::string content_as_str = Json::writeString(writer, content);
 
-	message["content"] = content_as_str;
+	//std::string content_as_str = Json::writeString(writer, content);
 
+	//std::cout << content_as_str << std::endl;
+	//std::cout << embeds << std::endl;
+
+	Json::Value message(Json::objectValue);
+	//message["content"] = content_as_str;
+	message["embeds"] = embeds;
 	_prices_as_json = Json::writeString(writer, message);
-	//std::cout << _prices_as_json << std::endl;
+
+	std::cout << _prices_as_json << std::endl;
 }
 
 // =========NOT USED========= //

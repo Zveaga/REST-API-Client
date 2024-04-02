@@ -25,12 +25,16 @@ int main(void)
 	//parse.formatPrice();
 	
 	curl.setParsedJson(parse.getParsedJson());
-	std::cout << curl.getParsedJson() << std::endl;
+	//std::cout << curl.getParsedJson() << std::endl;
 	
 	curl.initWebhook();
 	curl.setCurlPostOptions();
 	curl.setCurlPostHeaders();
 	curl.sendToDiscord();
+	// if (curl.sendToDiscord())
+	// 	std::cout << "Message successfully sent!" << std::endl;
+	// else
+	// 	std::cout << "Message failed to be sent!" << std::endl;
 	curl_global_cleanup();
 	
 }
