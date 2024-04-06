@@ -126,7 +126,7 @@ void ParseJson::formatJsonForDiscord()
 	Json::StreamWriterBuilder writer;
 	_prices_as_json = Json::writeString(writer, message);
 
-	std::cout << _prices_as_json << std::endl;
+	//std::cout << _prices_as_json << std::endl;
 }
 
 // =========NOT USED========= //

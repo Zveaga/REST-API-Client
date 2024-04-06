@@ -16,6 +16,8 @@ int main(void)
 	curl.setCurlGetHeaders();
 	curl.performCurlRequests();
 	
+	// curl.printJsonRoots();
+	
 	ParseJson parse(curl.getJsonResponses());
 	
 	parse.initSymbols();

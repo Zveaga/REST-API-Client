@@ -153,6 +153,7 @@ bool CurlRequest::performCurlRequests()
     	    return (false);
     	}
 	}
+
 	// Clean up
 	curl_slist_free_all(_curl_headers);
 	curl_easy_reset(_curl);
@@ -193,4 +194,17 @@ bool CurlRequest::sendToDiscord()
 	curl_slist_free_all(_curl_headers);
 	curl_easy_cleanup(_curl);
 	return (true);
+}
+
+
+void CurlRequest::printJsonRoots()
+{
+	Json::StyledWriter formatter;
+
+	for (const std::string &root: _curl_json_responses)
+	{
+		//std::string formatted_root = formatter
+		std::cout << root;
+		std::cout << "\n====================================\n";
+	}	
 }

@@ -13,6 +13,7 @@ class CurlRequest
 	private:
 		std::vector<std::string> 	_api_urls;
 		std::vector<std::string> 	_curl_json_responses;
+		//std::vector<Json::Value> 	_curl_json_roots;
 		std::string 				_api_key;
 		std::string 				_webhook_url;
 		std::string					_parsed_json;
@@ -36,7 +37,6 @@ class CurlRequest
 		bool 				initCurlHandle();
 		void 				initWebhook();
 		void 				initApiKey();
-		// void 				setWebhookURL(std::string webhook_url);
 		// -Getters- ///
 		std::string 		getApiKey() const;
 		std::string 		getWebhookURL() const;
@@ -55,6 +55,7 @@ class CurlRequest
 							size_t elem_size, size_t elem_count, void *data);
 		std::string			loadTextFile(const std::string &file);
 
+		void 				printJsonRoots();
 		bool				sendToDiscord();
 		
 
