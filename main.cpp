@@ -19,8 +19,9 @@ int main(void)
 	// curl.printJsonRoots();
 	
 	ParseJson parse(curl.getJsonResponses());
-	
-	parse.initSymbols();
+	// ParseJson parse(curl.getJsonRoots());
+
+	parse.initSymbols(curl.extractSymbols());
 	parse.parseJsonRes();
 	parse.formatPrice();
 	parse.formatJsonForDiscord();

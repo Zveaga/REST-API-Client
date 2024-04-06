@@ -12,6 +12,7 @@ class ParseJson
 {
 	private:
 		std::vector<std::string>	_json_responses;
+		std::vector<Json::Value>	_json_roots;
 		std::string					_prices_as_json;
 		std::string					_final_json;
 		std::vector<std::string>	_symbols;
@@ -21,6 +22,8 @@ class ParseJson
 	public:
 		// --CONSTRUCTORS-- //
 		ParseJson(const std::vector<std::string> json_responses);
+		ParseJson(const std::vector<Json::Value> json_roots);
+
 		// --DESTRUCTORS-- //
 		~ParseJson();
 
@@ -28,7 +31,7 @@ class ParseJson
 
 		// --MEMBER FUNCTIONS-- //
 		// -Initializers- //
-		void initSymbols();
+		void initSymbols(const std::vector<std::string> symbols);
 		// -Getters- ///
 		std::string getParsedJson();
 		// -Setters- ///
@@ -41,9 +44,14 @@ class ParseJson
 
 		void convertResToJson();
 		void formatJsonForDiscord();
+		void printJsonRoot(const Json::Value &root);
 
+		
+		
 		// --NOT USED-- //
 		std::string extractPriceAsStr(const Json::Value &parsedRoot, const std::string &symbol);
+
+
 };
 
 

@@ -73,7 +73,7 @@ bool CurlRequest(const std::string &url, std::string &response)
 bool sendToDiscord(const std::string &data)
 {
 	CURL *curl = curl_easy_init();
-	std::string webhook_url = "https://discord.com/api/webhooks/1219633152776208467/CCKCnAmKqdMHC1UBHteE4Xq-ipFj23jMBE-F56aSUgX5V6aAI76r4ycCzJK-pp2eZf14";
+	std::string webhook_url = "";
 
 	if (!curl)
 	{
@@ -141,7 +141,7 @@ std::string convertToJson(const Json::Value &data)
 
 int main(void)
 {
-	std::string api_url = "https://pro-api.coinmarketcap.com/v2/cryptocurrency/quotes/latest?symbol=BTC";
+	std::string api_url = "";
 	std::string response;
 
 	// std::string cryptoJson = R"({
@@ -161,7 +161,6 @@ int main(void)
 			const Json::Value quote_data = coin_data["quote"];
 			const Json::Value usd_data = quote_data["USD"];
 			const Json::Value price = usd_data["price"];
-
 			//std::string test = convertToJson(usd_data);
 			//std::cout << test << std::endl;
 

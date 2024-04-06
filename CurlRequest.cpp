@@ -34,7 +34,7 @@ CurlRequest::~CurlRequest()
 
 // ---------------Initializers--------------- //
 /**
- * Initilalize the  
+ * Initilalize the API urls
 */
 void CurlRequest::initApiUrls()
 {
@@ -47,6 +47,35 @@ void CurlRequest::initApiUrls()
 		"https://pro-api.coinmarketcap.com/v2/cryptocurrency/quotes/latest?symbol=YGG",		
 	};
 	
+}
+
+
+
+/**
+ * Initilalize the coins symbols
+*/
+std::vector<std::string> CurlRequest::extractSymbols()
+{
+	std::vector<std::string> symbols;
+
+	for (size_t i = 0; i < _api_urls.size(); ++i)
+	{
+		size_t start = _api_urls[i].find("symbol=");
+		if (start != std::string::npos)
+		{
+			start += 7;
+			symbols.push_back(_api_urls[i].substr(start, 3));
+		}
+		else
+		{
+			std::cerr << "Error while extracting the symbols! Exiting...\n";
+			exit(EXIT_FAILURE);
+		}
+	}
+	// for (const std::string &symbol: symbols)
+	// 	std::cout << symbol << std::endl;
+	
+	return (symbols);
 }
 
 /**
@@ -94,6 +123,11 @@ std::vector<std::string> CurlRequest::getJsonResponses() const
 {
 	return (_curl_json_responses);
 }
+
+// std::vector<Json::Value> CurlRequest::getJsonRoots() const
+// {
+// 	return (_curl_json_roots);
+// }
 
 std::string CurlRequest::getParsedJson()
 {

@@ -5,6 +5,8 @@
 // =========CONSTRUCTORS========= //
 ParseJson::ParseJson(const std::vector<std::string> json_responses): _json_responses(json_responses) {}
 
+// ParseJson::ParseJson(const std::vector<Json::Value> json_roots): _json_roots(json_roots) {}
+
 // =========DESTRUCTORS========= //
 ParseJson::~ParseJson()
 {
@@ -17,16 +19,9 @@ ParseJson::~ParseJson()
 // =========MEMBER FUNCTIONS========= //
 // -Initializers- //
 
-void ParseJson::initSymbols()
+void ParseJson::initSymbols(const std::vector<std::string> symbols)
 {
-	_symbols = 
-	{
-		"BTC",
-		"ETH",
-		"ADA",
-		"HNT",
-		"YGG",
-	};
+	_symbols = symbols;
 }
 // -Getters- ///
 
@@ -44,7 +39,6 @@ bool ParseJson::parseJsonRes()
 	Json::CharReaderBuilder builder;
 	Json::CharReader *reader = builder.newCharReader();
 	int i = 0;
-
 	for (const std::string &response: _json_responses)
 	{
 		std::string errors;
@@ -56,10 +50,10 @@ bool ParseJson::parseJsonRes()
 			std::cerr << "Failed to parse JSON: " << errors << std::endl;
     	    return (false);
 		}
-		
 		_prices.push_back(extractPrice(parsedRoot, _symbols[i]));
 		//_prices_as_str.push_back(extractPriceAsStr(parsedRoot, _symbols[i]));
 		i++;
+		//printJsonRoot(parsedRoot);
 		parsedRoot.clear();
 	}
 	delete reader;
@@ -128,6 +122,17 @@ void ParseJson::formatJsonForDiscord()
 
 	//std::cout << _prices_as_json << std::endl;
 }
+
+
+void ParseJson::printJsonRoot(const Json::Value &root)
+{
+	Json::StyledWriter styledWriter;
+
+	std::string formatted_root = styledWriter.write(root);
+	std::cout << formatted_root;
+	std::cout << "\n====================================\n";
+}
+
 
 // =========NOT USED========= //
 
