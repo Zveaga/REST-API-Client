@@ -8,14 +8,7 @@
 */
 CurlRequest::CurlRequest()
 {
-	_symbols = 
-	{
-		"BTC",
-		"ETH",
-		"ADA",
-		"HNT",
-		"YGG",
-	};
+
 }
 
 // =========DESTRUCTORS========= //
@@ -68,13 +61,12 @@ std::vector<std::string> CurlRequest::extractSymbols()
 		}
 		else
 		{
-			std::cerr << "Error while extracting the symbols! Exiting...\n";
+			std::cerr << "Coin symbol was not found in URL! Exiting...\n";
 			exit(EXIT_FAILURE);
 		}
 	}
 	// for (const std::string &symbol: symbols)
 	// 	std::cout << symbol << std::endl;
-	
 	return (symbols);
 }
 

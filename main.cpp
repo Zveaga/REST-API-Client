@@ -10,8 +10,6 @@ int main(void)
 	curl.initCurlHandle();
 	curl.initApiUrls();
 	curl.initApiKey();
-
-
 	curl.setCurlGetOptions();
 	curl.setCurlGetHeaders();
 	curl.performCurlRequests();
@@ -19,8 +17,7 @@ int main(void)
 	// curl.printJsonRoots();
 	
 	ParseJson parse(curl.getJsonResponses());
-	// ParseJson parse(curl.getJsonRoots());
-
+	
 	parse.initSymbols(curl.extractSymbols());
 	parse.parseJsonRes();
 	parse.formatPrice();
@@ -33,6 +30,7 @@ int main(void)
 	curl.setCurlPostOptions();
 	curl.setCurlPostHeaders();
 	// curl.sendToDiscord();
+
 	if (curl.sendToDiscord())
 		std::cout << "Message successfully sent!" << std::endl;
 	else
