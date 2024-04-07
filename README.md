@@ -1,6 +1,6 @@
 # Project is a work-in-progress 🔨
 
-When completed, the program will be able to make API calls to scrape website data, format it, and send it to a Discord server. <br/>
+When completed, the program will be able to make API calls to retrieve data, format it, and send it to a Discord server. <br/>
 <br/>Project goals:
 - Implement HTTP requests to the API endpoints
 - Parse the JSON file to extract the required data
